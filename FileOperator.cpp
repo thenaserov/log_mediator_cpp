@@ -6,7 +6,6 @@ FileOperator::FileOperator()
 
 FileOperator::~FileOperator()
 {
-	delete this;
 }
 
 bool FileOperator::isOpen(std::string path)
@@ -17,6 +16,7 @@ bool FileOperator::isOpen(std::string path)
 bool FileOperator::openFile(std::string path)
 {
 	_file.open(path, std::ios::in | std::ios::out);
+	return true;
 }
 
 
