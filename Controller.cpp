@@ -1,5 +1,9 @@
 #include "Controller.h"
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 Controller::Controller()
 {
@@ -30,10 +34,12 @@ void Controller::getLog()
 		auto logsLineByLine = readLogsFromFile("rawLog.txt");
 		for (auto a: logsLineByLine)
 			std::cout << a << std::endl;
-		//for (auto log : logsLineByLine)
-		//  _log_gen.addAnElementToCurrentLog(log);
-		Sleep(1000);
-		auto log = _log_gen.getLogAsString();
+        #ifdef _WIN32
+            Sleep(1000);
+        #else
+            sleep(1);
+        #endif
+        auto log = _log_gen.getLogAsString();
 		std::vector<std::string> logg = { log };
 		writeLogsToFile("ss.txt", logg);
 	}
@@ -70,8 +76,8 @@ void Controller::logToServer()
 
 void Controller::operate()
 {
-	//_thread_heartbeat = std::thread(&Controller::checkConnection, this);
+	_thread_heartbeat = std::thread(&Controller::checkConnection, this);
 	_thread_log_check = std::thread(&Controller::getLog, this);
-	//_thread_heartbeat.join();
+	_thread_heartbeat.join();
 	_thread_log_check.join();
 }
