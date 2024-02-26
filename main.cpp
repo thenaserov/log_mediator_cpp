@@ -17,6 +17,7 @@ int main() {
 	// 3. Will save the logs to another file if the server was offline
 	
 	Controller cntr;
+	cntr.operate();
 	
 	return 0;
 }
