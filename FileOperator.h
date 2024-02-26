@@ -9,13 +9,18 @@ class FileOperator {
 public:
 	FileOperator();
 	~FileOperator();
-	bool isOpen(std::string path);
-	bool openFile(std::string path);
+	bool isOpen();
+	void openFileRead();
+	void openFileWrite();
 	std::vector<std::string> readLines();
+	void writeLines(std::vector<std::string>& lines);
+	void setPath(std::string& path);
+
 
 private:
-	std::fstream _file{};
-	std::vector<std::string> _lines{};
+	std::fstream _file;
+	std::string _path;
+	std::vector<std::string> _lines;
 
 protected:
 };
