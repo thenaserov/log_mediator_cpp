@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include <Windows.h>
 
 Controller::Controller()
 {
@@ -6,17 +7,56 @@ Controller::Controller()
 
 std::vector<std::string> Controller::readLogsFromFile(std::string path)
 {
-	_file_operator.openFile(path);
-	return _file_operator.readLines();
+	_log_file_reader.setPath(path);
+	_log_file_reader.openFileRead();
+	return _log_file_reader.readLines();
+}
+
+void Controller::writeLogsToFile(std::string path, std::vector<std::string> logs)
+{
+	_log_file_writer.setPath(path);
+	_log_file_writer.openFileWrite();
+	_log_file_writer.writeLines(logs);
+}
+
+void Controller::setElasticServerAddress(std::string address)
+{
+	_elastic_server_address = address;	
 }
 
 void Controller::getLog()
 {
+	while (1) {
+		auto logsLineByLine = readLogsFromFile("rawLog.txt");
+		for (auto a: logsLineByLine)
+			std::cout << a << std::endl;
+		//for (auto log : logsLineByLine)
+		//  _log_gen.addAnElementToCurrentLog(log);
+		Sleep(1000);
+		auto log = _log_gen.getLogAsString();
+		std::vector<std::string> logg = { log };
+		writeLogsToFile("ss.txt", logg);
+	}
 }
 
 void Controller::checkConnection()
 {
-	_hb.ping("google.com");
+	auto start = std::chrono::steady_clock::now();
+	while (true) {
+		auto end = std::chrono::steady_clock::now();
+		auto diff = end - start;
+		if (std::chrono::duration_cast<std::chrono::seconds>(diff).count() >= 1) {
+			_hb.ping("192.168.1.1");
+			start = std::chrono::steady_clock::now();
+		}
+	}
+}
+
+void Controller::doLog()
+{
+	while (1) {
+
+	}
 }
 
 void Controller::logToFile()
@@ -30,18 +70,8 @@ void Controller::logToServer()
 
 void Controller::operate()
 {
-	// get log
-	while (1) {
-
-	}
-
-	// check elastic server
-	while (1) {
-		
-	}
-
-	// log the logs
-	while (1) {
-
-	}
+	//_thread_heartbeat = std::thread(&Controller::checkConnection, this);
+	_thread_log_check = std::thread(&Controller::getLog, this);
+	//_thread_heartbeat.join();
+	_thread_log_check.join();
 }
