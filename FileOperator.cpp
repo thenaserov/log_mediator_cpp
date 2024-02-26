@@ -8,27 +8,41 @@ FileOperator::~FileOperator()
 {
 }
 
-bool FileOperator::isOpen(std::string path)
+bool FileOperator::isOpen()
 {
 	return _file.is_open();
 }
 
-bool FileOperator::openFile(std::string path)
+void FileOperator::openFileRead()
 {
-	_file.open(path, std::ios::in | std::ios::out);
-	return true;
+	_file.open(_path, std::ios::in);
 }
 
+void FileOperator::openFileWrite()
+{
+	_file.open(_path, std::ios::out);
+}
 
 std::vector<std::string> FileOperator::readLines()
 {
-	if (_file.is_open()) {
-		std::string text;
-		while (std::getline(_file, text)) {
-			// std::cout << text << "\n";
-			_lines.push_back(text);
-		}
-		_file.close();
+	std::string text;
+	while (std::getline(_file, text)) {	
+		_lines.push_back(text);
 	}
-	return _lines;
+	auto lines = _lines;
+	_lines.clear();
+	_file.close();
+	return lines;
+}
+
+void FileOperator::writeLines(std::vector<std::string>& lines)
+{
+	for (auto &line : lines)
+		_file << line;
+	_file.close();
+}
+
+void FileOperator::setPath(std::string& path)
+{
+	_path = path;
 }
