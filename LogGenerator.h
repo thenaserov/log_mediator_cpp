@@ -9,7 +9,7 @@ public:
 	LogGenerator();
 	~LogGenerator();
 	void regenerateLog();
-	std::string gettLogAsString();
+	std::string getLogAsString();
 	void addAnElementToCurrentLog(std::string element);
 	void clearLogsVector();
 
