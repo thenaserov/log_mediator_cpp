@@ -10,16 +10,23 @@ LogGenerator::~LogGenerator()
 
 void LogGenerator::regenerateLog()
 {
-	for (std::vector<std::string>::iterator it = _logs_vector.begin(); it != _logs_vector.end(); it++) {
-		_full_log += *it + "|";
+	if (_logs_vector.size() > 0) {
+		for (std::vector<std::string>::iterator it = _logs_vector.begin(); it != _logs_vector.end(); it++) {
+			_full_log += *it + "|";
+		}
 	}
-	_full_log.pop_back(); // This removes the last "|"
+	if(_full_log != "")
+		_full_log.pop_back(); // This removes the last "|"
+	clearLogsVector();
 }
 
-std::string LogGenerator::gettLogAsString()
+std::string LogGenerator::getLogAsString()
 {
 	regenerateLog();
-	return _full_log;
+ 	auto log = _full_log;
+	_full_log.clear();
+	return log;
+	
 }
 
 void LogGenerator::addAnElementToCurrentLog(std::string element)
