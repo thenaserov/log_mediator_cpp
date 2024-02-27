@@ -14,4 +14,9 @@ This program reads the log from the file and then sends them to your log server
 
 # HOW TO RUN
 ---------------------------------------------------------------------------------
-simply do cmake
+Simply do cmake
+
+
+# TODO
+---------------------------------------------------------------------------------
+Implement online/offline switcher
