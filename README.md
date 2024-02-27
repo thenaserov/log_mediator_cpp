@@ -9,9 +9,9 @@ This program reads the log from the file and then sends them to your log server
 
 # DEPENDANCIES
 ---------------------------------------------------------------------------------
-- libcpprest
+(Nothing yet)
 
 
 # HOW TO RUN
 ---------------------------------------------------------------------------------
-Will be added soon
+simply do cmake
