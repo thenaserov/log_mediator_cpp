@@ -1,5 +1,7 @@
 // Test case
 // https://elstc.emapna.com/
+// curl -X POST https://elstc.emapna.com -u elastic:6aR1h77pUl6kU9PQZ2tS -H \"Content - Type: application / json\" -d @sample.json
+
 void TestCase1()
 {
     CURL* curl;
